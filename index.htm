@@ -531,10 +531,11 @@
         }
 
         function formatTime(milliseconds) {
+            // Garantir que sempre arredonde para baixo (truncar)
             const totalSeconds = Math.floor(milliseconds / 1000);
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
-            const seconds = totalSeconds % 60;
+            const seconds = Math.floor(totalSeconds % 60);
             
             if (hours > 0) {
                 return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -578,7 +579,13 @@
             if (!timerData.startTime || !timerData.isRunning) return;
 
             timerData.isRunning = false;
+            // Capturar o tempo exato no momento do clique
             timerData.endTime = Date.now();
+            
+            // Parar timer
+            clearInterval(timerData.currentInterval);
+            
+            // Calcular duração precisa
             const duration = timerData.endTime - timerData.startTime;
 
             // Salvar atividade
@@ -593,9 +600,6 @@
 
             timerData.activities.push(activity);
             saveData(); // Salvar no localStorage
-
-            // Parar timer
-            clearInterval(timerData.currentInterval);
 
             // Atualizar UI
             elements.startBtn.disabled = false;
@@ -641,7 +645,7 @@
                     elements.timerTime.textContent = formatTime(elapsed);
                     updateSessionInfo();
                 }
-            }, 100);
+            }, 1000); // Atualizar a cada 1 segundo para ser mais preciso
         }
 
         function updateTimerStatus(status) {
@@ -762,6 +766,8 @@
         }
 
         function updateHistoryList() {
+            console.log('Atualizando lista do histórico. Atividades:', timerData.activities.length);
+            
             if (timerData.activities.length === 0) {
                 elements.historyList.innerHTML = `
                     <div class="empty-state">
@@ -769,48 +775,100 @@
                         Inicie uma tarefa para começar! 🚀
                     </div>
                 `;
+                console.log('Lista vazia exibida');
                 return;
             }
 
-            const html = timerData.activities.slice().reverse().map(activity => `
-                <div class="history-item">
-                    <div class="history-info">
-                        <div class="history-theme">${activity.theme}</div>
-                        <div class="history-details">
-                            📅 ${activity.date}<br>
-                            🕐 ${formatDateTime(activity.startTime)} - ${formatDateTime(activity.endTime)}
+            const html = timerData.activities.slice().reverse().map((activity, index) => {
+                console.log(`Gerando HTML para atividade ${activity.id}: ${activity.theme}`);
+                return `
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-theme">${activity.theme}</div>
+                            <div class="history-details">
+                                📅 ${activity.date}<br>
+                                🕐 ${formatDateTime(activity.startTime)} - ${formatDateTime(activity.endTime)}
+                            </div>
+                            <div class="history-duration">⏱️ ${formatTime(activity.duration)}</div>
                         </div>
-                        <div class="history-duration">⏱️ ${formatTime(activity.duration)}</div>
+                        <button class="btn-delete" data-activity-id="${activity.id}" title="Excluir atividade">
+                            🗑️
+                        </button>
                     </div>
-                    <button class="btn-delete" onclick="deleteActivity(${activity.id})" title="Excluir atividade">
-                        🗑️
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             elements.historyList.innerHTML = html;
+            console.log('HTML do histórico inserido');
+
+            // Adicionar event listeners para os botões de deletar
+            const deleteButtons = elements.historyList.querySelectorAll('.btn-delete');
+            console.log('Botões de deletar encontrados:', deleteButtons.length);
+            
+            deleteButtons.forEach((button, index) => {
+                const activityId = button.getAttribute('data-activity-id');
+                console.log(`Adicionando listener ao botão ${index + 1}, ID: ${activityId}`);
+                
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Botão de deletar clicado, ID:', activityId);
+                    deleteActivity(parseInt(activityId));
+                });
+            });
         }
 
         function deleteActivity(id) {
-            if (confirm('❌ Tem certeza que deseja excluir esta atividade?')) {
-                timerData.activities = timerData.activities.filter(activity => activity.id !== id);
-                saveData(); // Salvar no localStorage
-                updateUI();
+            console.log('Tentando deletar atividade com ID:', id);
+            console.log('Tipo do ID recebido:', typeof id);
+            console.log('Atividades atuais:');
+            timerData.activities.forEach(a => {
+                console.log(`- ID: ${a.id} (${typeof a.id}), Tema: "${a.theme}"`);
+            });
+            
+            // Verificar se a atividade existe
+            const activityExists = timerData.activities.find(activity => activity.id === id);
+            console.log('Atividade encontrada:', activityExists ? 'SIM' : 'NÃO');
+            
+            if (!confirm('❌ Tem certeza que deseja excluir esta atividade?')) {
+                console.log('Usuário cancelou a exclusão');
+                return;
             }
+
+            console.log('Usuário confirmou a exclusão');
+            console.log('Atividades antes do filtro:', timerData.activities.length);
+            
+            timerData.activities = timerData.activities.filter(activity => {
+                const keep = activity.id !== id;
+                console.log(`Atividade ${activity.id} (${activity.theme}): ${keep ? 'MANTER' : 'REMOVER'}`);
+                return keep;
+            });
+            
+            console.log('Atividades depois do filtro:', timerData.activities.length);
+            
+            saveData();
+            updateUI();
+            console.log('Atividade deletada e UI atualizada');
         }
 
         function clearHistory() {
+            console.log('Tentando limpar histórico. Total de atividades:', timerData.activities.length);
+            
             if (timerData.activities.length === 0) {
                 alert('ℹ️ Não há atividades para limpar.');
                 return;
             }
 
-            if (confirm('⚠️ Tem certeza que deseja limpar TODO o histórico de atividades?\n\nEsta ação não pode ser desfeita!')) {
-                timerData.activities = [];
-                saveData(); // Salvar no localStorage
-                updateUI();
-                alert('🗑️ Histórico limpo com sucesso!');
+            if (!confirm('⚠️ Tem certeza que deseja limpar TODO o histórico de atividades?\n\nEsta ação não pode ser desfeita!')) {
+                return;
             }
+
+            console.log('Usuário confirmou limpeza');
+            timerData.activities = [];
+            saveData();
+            updateUI();
+            console.log('Histórico limpo e salvo');
+            alert('🗑️ Histórico limpo com sucesso!');
         }
 
         // Funções para persistência de dados
@@ -821,8 +879,10 @@
                     timestamp: Date.now()
                 };
                 localStorage.setItem('taskTimerData', JSON.stringify(dataToSave));
+                console.log('Dados salvos no localStorage:', dataToSave.activities.length, 'atividades');
             } catch (error) {
-                console.warn('Erro ao salvar dados:', error);
+                console.error('Erro ao salvar dados:', error);
+                alert('❌ Erro ao salvar dados no navegador');
             }
         }
 
@@ -835,14 +895,16 @@
                     // Verificar se os dados não estão expirados (5 dias)
                     if (parsedData.timestamp && (Date.now() - parsedData.timestamp < STORAGE_DURATION)) {
                         timerData.activities = parsedData.activities || [];
+                        console.log('Dados carregados:', timerData.activities.length, 'atividades');
                     } else {
                         // Dados expirados, limpar
                         localStorage.removeItem('taskTimerData');
                         timerData.activities = [];
+                        console.log('Dados expirados, limpeza automática realizada');
                     }
                 }
             } catch (error) {
-                console.warn('Erro ao carregar dados:', error);
+                console.error('Erro ao carregar dados:', error);
                 timerData.activities = [];
             }
         }
