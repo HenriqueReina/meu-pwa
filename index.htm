@@ -468,7 +468,7 @@
     </div>
 
     <script>
-        // Variáveis globais para armazenar dados em memória
+        // Variáveis globais para armazenar dados
         let timerData = {
             activities: [],
             isRunning: false,
@@ -480,11 +480,16 @@
         // Elementos DOM
         let elements = {};
 
+        // Configuração de persistência (5 dias)
+        const STORAGE_DURATION = 5 * 24 * 60 * 60 * 1000; // 5 dias em milliseconds
+
         // Inicialização quando o DOM estiver carregado
         document.addEventListener('DOMContentLoaded', function() {
             initElements();
+            loadData();
             bindEvents();
             updateUI();
+            cleanOldData();
         });
 
         function initElements() {
@@ -587,6 +592,7 @@
             };
 
             timerData.activities.push(activity);
+            saveData(); // Salvar no localStorage
 
             // Parar timer
             clearInterval(timerData.currentInterval);
@@ -712,6 +718,34 @@
             }
 
             updateHistoryList();
+            updateDataExpirationInfo();
+        }
+
+        function updateDataExpirationInfo() {
+            // Verificar se existe dados salvos e calcular dias restantes
+            try {
+                const savedData = localStorage.getItem('taskTimerData');
+                if (savedData && timerData.activities.length > 0) {
+                    const parsedData = JSON.parse(savedData);
+                    if (parsedData.timestamp) {
+                        const daysLeft = Math.ceil((STORAGE_DURATION - (Date.now() - parsedData.timestamp)) / (24 * 60 * 60 * 1000));
+                        
+                        // Adicionar info de expiração no card de estatísticas
+                        if (elements.statsCard && !elements.statsCard.classList.contains('hidden')) {
+                            const existingInfo = elements.statsCard.querySelector('.expiration-info');
+                            if (existingInfo) existingInfo.remove();
+                            
+                            const expirationInfo = document.createElement('div');
+                            expirationInfo.className = 'expiration-info';
+                            expirationInfo.style.cssText = 'margin-top: 15px; padding-top: 15px; border-top: 1px solid #CBD5E1; font-size: 14px; color: #64748B; text-align: center;';
+                            expirationInfo.innerHTML = `🗂️ Dados salvos por mais ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+                            elements.statsCard.appendChild(expirationInfo);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.warn('Erro ao verificar expiração:', error);
+            }
         }
 
         function getTodayActivities() {
@@ -760,6 +794,7 @@
         function deleteActivity(id) {
             if (confirm('❌ Tem certeza que deseja excluir esta atividade?')) {
                 timerData.activities = timerData.activities.filter(activity => activity.id !== id);
+                saveData(); // Salvar no localStorage
                 updateUI();
             }
         }
@@ -772,8 +807,59 @@
 
             if (confirm('⚠️ Tem certeza que deseja limpar TODO o histórico de atividades?\n\nEsta ação não pode ser desfeita!')) {
                 timerData.activities = [];
+                saveData(); // Salvar no localStorage
                 updateUI();
                 alert('🗑️ Histórico limpo com sucesso!');
+            }
+        }
+
+        // Funções para persistência de dados
+        function saveData() {
+            try {
+                const dataToSave = {
+                    activities: timerData.activities,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('taskTimerData', JSON.stringify(dataToSave));
+            } catch (error) {
+                console.warn('Erro ao salvar dados:', error);
+            }
+        }
+
+        function loadData() {
+            try {
+                const savedData = localStorage.getItem('taskTimerData');
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    
+                    // Verificar se os dados não estão expirados (5 dias)
+                    if (parsedData.timestamp && (Date.now() - parsedData.timestamp < STORAGE_DURATION)) {
+                        timerData.activities = parsedData.activities || [];
+                    } else {
+                        // Dados expirados, limpar
+                        localStorage.removeItem('taskTimerData');
+                        timerData.activities = [];
+                    }
+                }
+            } catch (error) {
+                console.warn('Erro ao carregar dados:', error);
+                timerData.activities = [];
+            }
+        }
+
+        function cleanOldData() {
+            // Limpar atividades com mais de 5 dias
+            const cutoffDate = Date.now() - STORAGE_DURATION;
+            const originalLength = timerData.activities.length;
+            
+            timerData.activities = timerData.activities.filter(activity => {
+                return activity.startTime > cutoffDate;
+            });
+
+            // Se removeu algum item, salvar os dados atualizados
+            if (timerData.activities.length !== originalLength) {
+                saveData();
+                console.log(`Removidas ${originalLength - timerData.activities.length} atividades antigas`);
             }
         }
 
