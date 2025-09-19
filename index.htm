@@ -531,11 +531,13 @@
         }
 
         function formatTime(milliseconds) {
-            // Garantir que sempre arredonde para baixo (truncar)
+            // Garantir que sempre arredonde para baixo (truncar) para evitar segundos extras
             const totalSeconds = Math.floor(milliseconds / 1000);
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = Math.floor(totalSeconds % 60);
+            
+            console.log(`formatTime: ${milliseconds}ms = ${totalSeconds}s = ${minutes}m ${seconds}s`);
             
             if (hours > 0) {
                 return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -578,15 +580,21 @@
         function handleStop() {
             if (!timerData.startTime || !timerData.isRunning) return;
 
+            console.log('=== PARANDO TIMER ===');
+            console.log('startTime:', new Date(timerData.startTime).toLocaleString());
+            
             timerData.isRunning = false;
             // Capturar o tempo exato no momento do clique
             timerData.endTime = Date.now();
+            console.log('endTime:', new Date(timerData.endTime).toLocaleString());
             
             // Parar timer
             clearInterval(timerData.currentInterval);
             
             // Calcular duração precisa
             const duration = timerData.endTime - timerData.startTime;
+            console.log('duration (ms):', duration);
+            console.log('duration (formatted):', formatTime(duration));
 
             // Salvar atividade
             const activity = {
@@ -598,8 +606,9 @@
                 date: formatDate(timerData.startTime)
             };
 
+            console.log('Salvando atividade:', activity);
             timerData.activities.push(activity);
-            saveData(); // Salvar no localStorage
+            saveData();
 
             // Atualizar UI
             elements.startBtn.disabled = false;
@@ -609,9 +618,7 @@
             updateTimerStatus('completed');
             updateSessionInfo();
             updateUI();
-
-            // Mostrar notificação
-            alert(`✅ Tarefa concluída!\n\n⏱️ Tempo gasto: ${formatTime(duration)}\n📝 Tema: ${activity.theme}`);
+            console.log('=== TIMER PARADO ===');
         }
 
         function handleReset() {
@@ -639,13 +646,18 @@
         }
 
         function startTimer() {
+            // Atualizar imediatamente ao iniciar
+            const elapsed = Date.now() - timerData.startTime;
+            elements.timerTime.textContent = formatTime(elapsed);
+            updateSessionInfo();
+            
             timerData.currentInterval = setInterval(function() {
                 if (timerData.startTime && timerData.isRunning) {
                     const elapsed = Date.now() - timerData.startTime;
                     elements.timerTime.textContent = formatTime(elapsed);
                     updateSessionInfo();
                 }
-            }, 1000); // Atualizar a cada 1 segundo para ser mais preciso
+            }, 100); // Voltar para 100ms para suavidade visual
         }
 
         function updateTimerStatus(status) {
@@ -704,21 +716,27 @@
         function updateUI() {
             const hasActivities = timerData.activities.length > 0;
             const todayActivities = getTodayActivities();
+            console.log('Atualizando UI - Total de atividades:', hasActivities ? timerData.activities.length : 0);
+            console.log('Atividades de hoje:', todayActivities.length);
 
-            // Atualizar estatísticas
-            if (hasActivities) {
+            // Atualizar estatísticas do dia
+            if (todayActivities.length > 0) {
+                // Mostrar card de estatísticas se há atividades de hoje
                 elements.statsCard.classList.remove('hidden');
                 const totalTime = todayActivities.reduce((sum, activity) => sum + activity.duration, 0);
                 elements.totalTime.textContent = formatTime(totalTime);
                 elements.totalActivities.textContent = todayActivities.length;
+                console.log('Resumo do dia atualizado:', formatTime(totalTime), todayActivities.length, 'atividades');
 
-                // Habilitar botões de exportação
+                // Habilitar botões de exportação se há atividades de hoje
                 elements.exportTxtBtn.disabled = false;
                 elements.exportCsvBtn.disabled = false;
             } else {
+                // Ocultar card de estatísticas se não há atividades de hoje
                 elements.statsCard.classList.add('hidden');
                 elements.exportTxtBtn.disabled = true;
                 elements.exportCsvBtn.disabled = true;
+                console.log('Nenhuma atividade de hoje - estatísticas ocultadas');
             }
 
             updateHistoryList();
@@ -928,7 +946,7 @@
         function exportTXT() {
             const todayActivities = getTodayActivities();
             if (todayActivities.length === 0) {
-                alert('⚠️ Não há atividades de hoje para exportar.');
+                console.log('Nenhuma atividade de hoje para exportar');
                 return;
             }
 
@@ -955,7 +973,7 @@
         function shareTXT() {
             const todayActivities = getTodayActivities();
             if (todayActivities.length === 0) {
-                alert('⚠️ Não há atividades de hoje para compartilhar.');
+                console.log('Nenhuma atividade de hoje para compartilhar');
                 return;
             }
 
