@@ -441,8 +441,8 @@
                 <button id="exportTxtBtn" class="btn btn-export btn-small" disabled>
                     📄 Relatório
                 </button>
-                <button id="exportCsvBtn" class="btn btn-export btn-small" disabled>
-                    📊 CSV
+                <button id="shareTxtBtn" class="btn btn-export btn-small" disabled>
+                    📤 Compartilhar
                 </button>
                 <button id="historyToggle" class="btn btn-history btn-small">
                     📋 Histórico
@@ -509,7 +509,7 @@
                 historySection: document.getElementById('historySection'),
                 historyList: document.getElementById('historyList'),
                 exportTxtBtn: document.getElementById('exportTxtBtn'),
-                exportCsvBtn: document.getElementById('exportCsvBtn'),
+                exportCsvBtn: document.getElementById('shareTxtBtn'),
                 clearHistoryBtn: document.getElementById('clearHistoryBtn')
             };
         }
@@ -520,7 +520,7 @@
             elements.resetBtn.addEventListener('click', handleReset);
             elements.historyToggle.addEventListener('click', toggleHistory);
             elements.exportTxtBtn.addEventListener('click', exportTXT);
-            elements.exportCsvBtn.addEventListener('click', exportCSV);
+            elements.exportCsvBtn.addEventListener('click', shareTXT);
             elements.clearHistoryBtn.addEventListener('click', clearHistory);
             
             elements.taskTheme.addEventListener('input', function() {
@@ -890,30 +890,114 @@
             downloadFile(content, `relatorio_atividades_${today.replace(/\//g, '-')}.txt`, 'text/plain');
         }
 
-        function exportCSV() {
-            if (timerData.activities.length === 0) {
-                alert('⚠️ Não há atividades para exportar.');
+        function shareTXT() {
+            const todayActivities = getTodayActivities();
+            if (todayActivities.length === 0) {
+                alert('⚠️ Não há atividades de hoje para compartilhar.');
                 return;
             }
 
-            const headers = ['Data', 'Tema', 'Hora Início', 'Hora Fim', 'Tempo Gasto (HH:MM:SS)'];
-            const csvContent = [
-                headers.join(';'),
-                ...timerData.activities.map(activity => [
-                    activity.date,
-                    `"${activity.theme}"`,
-                    formatDateTime(activity.startTime),
-                    formatDateTime(activity.endTime),
-                    formatTime(activity.duration)
-                ].join(';'))
-            ].join('\n');
-
             const today = new Date().toLocaleDateString('pt-BR');
-            downloadFile(
-                '\ufeff' + csvContent, // BOM para UTF-8
-                `atividades_completas_${today.replace(/\//g, '-')}.csv`, 
-                'text/csv;charset=utf-8'
-            );
+            let content = `📊 RELATÓRIO DE ATIVIDADES - ${today}\n`;
+            content += `${'='.repeat(50)}\n\n`;
+
+            todayActivities.forEach((activity, index) => {
+                content += `${index + 1}. 📝 ${activity.theme}\n`;
+                content += `   ⏰ ${formatDateTime(activity.startTime)} - ${formatDateTime(activity.endTime)}\n`;
+                content += `   ⏱️ Duração: ${formatTime(activity.duration)}\n\n`;
+            });
+
+            const totalTime = todayActivities.reduce((sum, activity) => sum + activity.duration, 0);
+            content += `${'='.repeat(50)}\n`;
+            content += `📈 TEMPO TOTAL: ${formatTime(totalTime)}\n`;
+            content += `📋 ATIVIDADES: ${todayActivities.length}\n`;
+            content += `📅 ${new Date().toLocaleString('pt-BR')}`;
+
+            // Verificar se a API Web Share está disponível
+            if (navigator.share) {
+                // Criar um arquivo temporário para compartilhar
+                const blob = new Blob([content], { type: 'text/plain' });
+                const file = new File([blob], `relatorio_${today.replace(/\//g, '-')}.txt`, { type: 'text/plain' });
+                
+                navigator.share({
+                    title: `Relatório de Atividades - ${today}`,
+                    text: 'Relatório de produtividade do Task Timer',
+                    files: [file]
+                }).then(() => {
+                    console.log('Compartilhamento realizado com sucesso!');
+                }).catch((error) => {
+                    console.log('Erro ao compartilhar:', error);
+                    fallbackShare(content, today);
+                });
+            } else {
+                // Fallback para navegadores que não suportam Web Share API
+                fallbackShare(content, today);
+            }
+        }
+
+        function fallbackShare(content, today) {
+            // Tentar copiar para área de transferência
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(content).then(() => {
+                    alert('📋 Relatório copiado para área de transferência!\n\nVocê pode colar em qualquer aplicativo (WhatsApp, email, etc.)');
+                }).catch(() => {
+                    showTextModal(content, today);
+                });
+            } else {
+                showTextModal(content, today);
+            }
+        }
+
+        function showTextModal(content, today) {
+            // Criar modal para mostrar o texto
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.8); display: flex; align-items: center; 
+                justify-content: center; z-index: 9999; padding: 20px; box-sizing: border-box;
+            `;
+
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: white; border-radius: 15px; padding: 30px; max-width: 90%; 
+                max-height: 90%; overflow: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            `;
+
+            modalContent.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0; color: #1E293B;">📤 Compartilhar Relatório</h3>
+                    <button onclick="this.closest('[style*=fixed]').remove()" 
+                            style="background: #EF4444; color: white; border: none; border-radius: 50%; 
+                                   width: 30px; height: 30px; cursor: pointer; font-size: 16px;">✕</button>
+                </div>
+                <textarea readonly style="width: 100%; height: 300px; padding: 15px; border: 2px solid #E5E7EB; 
+                                         border-radius: 10px; font-family: monospace; font-size: 14px; resize: none;">${content}</textarea>
+                <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
+                    <button onclick="navigator.clipboard.writeText(this.parentElement.previousElementSibling.value).then(() => alert('📋 Copiado!')).catch(() => alert('❌ Erro ao copiar'))"
+                            style="background: linear-gradient(135deg, #10B981, #059669); color: white; border: none; 
+                                   padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                        📋 Copiar Texto
+                    </button>
+                    <button onclick="downloadFile('${content.replace(/'/g, "\\'")}', 'relatorio_${today.replace(/\//g, '-')}.txt', 'text/plain')"
+                            style="background: linear-gradient(135deg, #3B82F6, #1E40AF); color: white; border: none; 
+                                   padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                        💾 Baixar Arquivo
+                    </button>
+                </div>
+                <p style="margin-top: 15px; font-size: 14px; color: #64748B; text-align: center; line-height: 1.5;">
+                    💡 Dica: Copie o texto acima e cole no WhatsApp, email, Telegram ou qualquer outro aplicativo!
+                </p>
+            `;
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+
+            // Fechar modal ao clicar fora
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
         }
 
         function downloadFile(content, filename, mimeType) {
