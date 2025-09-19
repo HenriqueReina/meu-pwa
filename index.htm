@@ -903,7 +903,8 @@
 
             todayActivities.forEach((activity, index) => {
                 content += `${index + 1}. 📝 ${activity.theme}\n`;
-                content += `   ⏰ ${formatDateTime(activity.startTime)} - ${formatDateTime(activity.endTime)}\n`;
+                content += `   ⏰ Início: ${formatDateTime(activity.startTime)}\n`;
+                content += `   🏁 Fim: ${formatDateTime(activity.endTime)}\n`;
                 content += `   ⏱️ Duração: ${formatTime(activity.duration)}\n\n`;
             });
 
