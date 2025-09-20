@@ -15,14 +15,14 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 8px;
+            padding: 20px;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
+            border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
         }
@@ -30,55 +30,68 @@
         .header {
             background: linear-gradient(135deg, #3B82F6, #1E40AF);
             color: white;
-            padding: 12px 20px;
+            padding: 30px;
             text-align: center;
         }
 
         .header h1 {
-            font-size: 18px;
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 2px;
+            margin-bottom: 8px;
         }
 
         .header p {
             opacity: 0.9;
-            font-size: 12px;
+            font-size: 16px;
         }
 
         .content {
-            padding: 16px;
+            padding: 30px;
         }
 
         .timer-display {
             background: linear-gradient(135deg, #F8FAFC, #E2E8F0);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 20px;
+            padding: 40px 30px;
             text-align: center;
-            margin-bottom: 16px;
-            border: 2px solid #E2E8F0;
+            margin-bottom: 30px;
+            border: 3px solid #E2E8F0;
         }
 
         .timer-time {
             font-family: 'Courier New', monospace;
-            font-size: 32px;
+            font-size: 56px;
             font-weight: bold;
             color: #1E293B;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
         }
 
         .timer-status {
             display: inline-flex;
             align-items: center;
-            padding: 4px 10px;
-            border-radius: 16px;
-            font-size: 12px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
             font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .status-waiting { background: #F1F5F9; color: #64748B; }
-        .status-running { background: #DCFCE7; color: #166534; animation: pulse 2s infinite; }
-        .status-completed { background: #DBEAFE; color: #1E40AF; }
+        .status-waiting {
+            background: #F1F5F9;
+            color: #64748B;
+        }
+
+        .status-running {
+            background: #DCFCE7;
+            color: #166534;
+            animation: pulse 2s infinite;
+        }
+
+        .status-completed {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
@@ -86,30 +99,31 @@
         }
 
         .form-section {
-            margin-bottom: 12px;
+            margin-bottom: 30px;
         }
 
         .form-label {
             display: block;
             font-weight: 600;
             color: #374151;
-            margin-bottom: 4px;
-            font-size: 13px;
+            margin-bottom: 10px;
+            font-size: 16px;
         }
 
         .form-input {
             width: 100%;
-            padding: 10px 12px;
+            padding: 16px 20px;
             border: 2px solid #E5E7EB;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 15px;
+            font-size: 16px;
             transition: all 0.3s;
+            background: white;
         }
 
         .form-input:focus {
             outline: none;
             border-color: #3B82F6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
 
         .form-input:disabled {
@@ -121,108 +135,118 @@
         .button-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .btn {
-            padding: 10px 14px;
+            padding: 18px 25px;
             border: none;
-            border-radius: 8px;
-            font-size: 13px;
+            border-radius: 15px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 10px;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
         }
 
         .btn:disabled {
             background: #E5E7EB !important;
             color: #9CA3AF !important;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
-        .btn-start { background: linear-gradient(135deg, #10B981, #059669); color: white; }
-        .btn-stop { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; }
-        .btn-reset { background: linear-gradient(135deg, #6B7280, #4B5563); color: white; grid-column: 1 / -1; }
-        .btn-export { background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: white; }
-        .btn-history { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; }
+        .btn-start {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: white;
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #6B7280, #4B5563);
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+            color: white;
+        }
+
+        .btn-history {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+        }
 
         .stats-card {
             background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-            border-left: 3px solid #3B82F6;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3B82F6;
         }
 
         .stats-title {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 700;
             color: #1E293B;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
         }
 
         .stats-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 4px;
+            margin-bottom: 10px;
         }
 
         .stats-label {
             color: #64748B;
-            font-size: 12px;
+            font-size: 15px;
         }
 
         .stats-value {
             font-weight: 700;
             color: #1E293B;
-            font-size: 13px;
+            font-size: 16px;
         }
 
         .stats-highlight {
             color: #3B82F6;
-            font-size: 15px;
-        }
-
-        .session-info {
-            background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-            border-left: 3px solid #10B981;
-            font-size: 12px;
-        }
-
-        .export-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .btn-small {
-            padding: 8px 10px;
-            font-size: 11px;
+            font-size: 20px;
         }
 
         .history-section {
-            margin-top: 12px;
+            margin-top: 25px;
         }
 
         .history-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
 
         .history-title {
-            font-size: 14px;
+            font-size: 20px;
             font-weight: 700;
             color: #1E293B;
         }
@@ -230,31 +254,31 @@
         .btn-clear {
             background: linear-gradient(135deg, #EF4444, #DC2626);
             color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
             border: none;
             cursor: pointer;
         }
 
         .history-list {
             background: #F8FAFC;
-            border-radius: 8px;
-            padding: 8px;
-            max-height: 300px;
+            border-radius: 15px;
+            padding: 10px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
         .history-item {
             background: white;
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 8px;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-            border-left: 3px solid #3B82F6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #3B82F6;
         }
 
         .history-info {
@@ -264,46 +288,89 @@
         .history-theme {
             font-weight: 700;
             color: #1E293B;
-            margin-bottom: 4px;
-            font-size: 13px;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
 
         .history-details {
-            font-size: 11px;
+            font-size: 14px;
             color: #64748B;
-            line-height: 1.3;
+            line-height: 1.6;
         }
 
         .history-duration {
             font-weight: 700;
             color: #3B82F6;
-            margin-top: 4px;
-            font-size: 12px;
+            margin-top: 8px;
+            font-size: 15px;
         }
 
         .btn-delete {
             background: linear-gradient(135deg, #EF4444, #DC2626);
             color: white;
             border: none;
-            padding: 4px 6px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
         }
 
         .empty-state {
             text-align: center;
             color: #64748B;
-            padding: 20px;
+            padding: 40px 20px;
             font-style: italic;
-            font-size: 13px;
+            font-size: 16px;
         }
 
-        .hidden { display: none; }
+        .hidden {
+            display: none;
+        }
 
-        @media (max-width: 350px) {
-            .timer-time { font-size: 24px; }
-            .export-buttons { grid-template-columns: 1fr; gap: 4px; }
+        .session-info {
+            background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #10B981;
+        }
+
+        .export-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-small {
+            padding: 12px 16px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .timer-time {
+                font-size: 42px;
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .export-buttons {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
         }
     </style>
 </head>
@@ -326,25 +393,39 @@
             <!-- Campo do Tema -->
             <div class="form-section">
                 <label for="taskTheme" class="form-label">🎯 Tema da Tarefa</label>
-                <input type="text" id="taskTheme" class="form-input" placeholder="Descreva a tarefa..." maxlength="100">
+                <input 
+                    type="text" 
+                    id="taskTheme" 
+                    class="form-input"
+                    placeholder="Descreva a tarefa que você vai realizar..."
+                    maxlength="100"
+                >
             </div>
 
             <!-- Botões de Controle -->
             <div class="button-group">
-                <button id="startBtn" class="btn btn-start">▶️ Iniciar</button>
-                <button id="stopBtn" class="btn btn-stop" disabled>⏹️ Finalizar</button>
-                <button id="resetBtn" class="btn btn-reset">🔄 Resetar</button>
+                <button id="startBtn" class="btn btn-start">
+                    ▶️ Iniciar
+                </button>
+                <button id="stopBtn" class="btn btn-stop" disabled>
+                    ⏹️ Finalizar
+                </button>
+                <button id="resetBtn" class="btn btn-reset">
+                    🔄 Resetar
+                </button>
             </div>
 
             <!-- Informações da Sessão Atual -->
             <div id="sessionInfo" class="session-info hidden">
-                <div style="font-weight: 700; margin-bottom: 6px; color: #166534;">📋 Sessão Atual</div>
+                <h3 style="margin-bottom: 15px; color: #166534;">📋 Sessão Atual</h3>
                 <div id="sessionDetails"></div>
             </div>
 
             <!-- Estatísticas do Dia -->
             <div id="statsCard" class="stats-card hidden">
-                <div class="stats-title">📊 Resumo do Dia</div>
+                <div class="stats-title">
+                    📊 Resumo do Dia
+                </div>
                 <div class="stats-row">
                     <span class="stats-label">Tempo total trabalhado:</span>
                     <span id="totalTime" class="stats-value stats-highlight">00:00</span>
@@ -357,16 +438,24 @@
 
             <!-- Botões de Exportação e Histórico -->
             <div class="export-buttons">
-                <button id="exportTxtBtn" class="btn btn-export btn-small" disabled>📄 Relatório</button>
-                <button id="shareTxtBtn" class="btn btn-export btn-small" disabled>📤 Compartilhar</button>
-                <button id="historyToggle" class="btn btn-history btn-small">📋 Histórico</button>
+                <button id="exportTxtBtn" class="btn btn-export btn-small" disabled>
+                    📄 Relatório
+                </button>
+                <button id="shareTxtBtn" class="btn btn-export btn-small" disabled>
+                    📤 Compartilhar
+                </button>
+                <button id="historyToggle" class="btn btn-history btn-small">
+                    📋 Histórico
+                </button>
             </div>
 
             <!-- Seção do Histórico -->
             <div id="historySection" class="history-section hidden">
                 <div class="history-header">
                     <h3 class="history-title">📚 Histórico de Atividades</h3>
-                    <button id="clearHistoryBtn" class="btn btn-clear btn-small">🗑️ Limpar Tudo</button>
+                    <button id="clearHistoryBtn" class="btn btn-clear btn-small">
+                        🗑️ Limpar Tudo
+                    </button>
                 </div>
                 <div id="historyList" class="history-list">
                     <div class="empty-state">
@@ -379,9 +468,9 @@
     </div>
 
     <script>
-        // Variáveis globais
+        // Variáveis globais para armazenar dados
         let timerData = {
-            activities: JSON.parse(localStorage.getItem('taskTimerData') || '[]'),
+            activities: [],
             isRunning: false,
             startTime: null,
             endTime: null,
@@ -389,32 +478,66 @@
         };
 
         // Elementos DOM
-        const elements = {
-            taskTheme: document.getElementById('taskTheme'),
-            timerTime: document.getElementById('timerTime'),
-            timerStatus: document.getElementById('timerStatus'),
-            startBtn: document.getElementById('startBtn'),
-            stopBtn: document.getElementById('stopBtn'),
-            resetBtn: document.getElementById('resetBtn'),
-            sessionInfo: document.getElementById('sessionInfo'),
-            sessionDetails: document.getElementById('sessionDetails'),
-            statsCard: document.getElementById('statsCard'),
-            totalTime: document.getElementById('totalTime'),
-            totalActivities: document.getElementById('totalActivities'),
-            historyToggle: document.getElementById('historyToggle'),
-            historySection: document.getElementById('historySection'),
-            historyList: document.getElementById('historyList'),
-            exportTxtBtn: document.getElementById('exportTxtBtn'),
-            shareTxtBtn: document.getElementById('shareTxtBtn'),
-            clearHistoryBtn: document.getElementById('clearHistoryBtn')
-        };
+        let elements = {};
 
-        // Função para formatar tempo
+        // Configuração de persistência (5 dias)
+        const STORAGE_DURATION = 5 * 24 * 60 * 60 * 1000; // 5 dias em milliseconds
+
+        // Inicialização quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            initElements();
+            loadData();
+            bindEvents();
+            updateUI();
+            cleanOldData();
+        });
+
+        function initElements() {
+            elements = {
+                taskTheme: document.getElementById('taskTheme'),
+                timerTime: document.getElementById('timerTime'),
+                timerStatus: document.getElementById('timerStatus'),
+                startBtn: document.getElementById('startBtn'),
+                stopBtn: document.getElementById('stopBtn'),
+                resetBtn: document.getElementById('resetBtn'),
+                sessionInfo: document.getElementById('sessionInfo'),
+                sessionDetails: document.getElementById('sessionDetails'),
+                statsCard: document.getElementById('statsCard'),
+                totalTime: document.getElementById('totalTime'),
+                totalActivities: document.getElementById('totalActivities'),
+                historyToggle: document.getElementById('historyToggle'),
+                historySection: document.getElementById('historySection'),
+                historyList: document.getElementById('historyList'),
+                exportTxtBtn: document.getElementById('exportTxtBtn'),
+                exportCsvBtn: document.getElementById('shareTxtBtn'),
+                clearHistoryBtn: document.getElementById('clearHistoryBtn')
+            };
+        }
+
+        function bindEvents() {
+            elements.startBtn.addEventListener('click', handleStart);
+            elements.stopBtn.addEventListener('click', handleStop);
+            elements.resetBtn.addEventListener('click', handleReset);
+            elements.historyToggle.addEventListener('click', toggleHistory);
+            elements.exportTxtBtn.addEventListener('click', exportTXT);
+            elements.exportCsvBtn.addEventListener('click', shareTXT);
+            elements.clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            elements.taskTheme.addEventListener('input', function() {
+                if (timerData.startTime && timerData.isRunning) {
+                    updateSessionInfo();
+                }
+            });
+        }
+
         function formatTime(milliseconds) {
+            // Garantir que sempre arredonde para baixo (truncar) para evitar segundos extras
             const totalSeconds = Math.floor(milliseconds / 1000);
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = Math.floor(totalSeconds % 60);
+            
+            console.log(`formatTime: ${milliseconds}ms = ${totalSeconds}s = ${minutes}m ${seconds}s`);
             
             if (hours > 0) {
                 return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -431,7 +554,6 @@
             return new Date(timestamp).toLocaleDateString('pt-BR');
         }
 
-        // Função para iniciar timer
         function handleStart() {
             const theme = elements.taskTheme.value.trim();
             if (!theme) {
@@ -444,6 +566,7 @@
             timerData.startTime = Date.now();
             timerData.endTime = null;
 
+            // Atualizar UI
             elements.startBtn.disabled = true;
             elements.stopBtn.disabled = false;
             elements.taskTheme.disabled = true;
@@ -457,12 +580,23 @@
         function handleStop() {
             if (!timerData.startTime || !timerData.isRunning) return;
 
+            console.log('=== PARANDO TIMER ===');
+            console.log('startTime:', new Date(timerData.startTime).toLocaleString());
+            
             timerData.isRunning = false;
+            // Capturar o tempo exato no momento do clique
             timerData.endTime = Date.now();
+            console.log('endTime:', new Date(timerData.endTime).toLocaleString());
+            
+            // Parar timer
             clearInterval(timerData.currentInterval);
             
+            // Calcular duração precisa
             const duration = timerData.endTime - timerData.startTime;
+            console.log('duration (ms):', duration);
+            console.log('duration (formatted):', formatTime(duration));
 
+            // Salvar atividade
             const activity = {
                 id: Date.now(),
                 theme: elements.taskTheme.value.trim(),
@@ -472,9 +606,11 @@
                 date: formatDate(timerData.startTime)
             };
 
+            console.log('Salvando atividade:', activity);
             timerData.activities.push(activity);
             saveData();
 
+            // Atualizar UI
             elements.startBtn.disabled = false;
             elements.stopBtn.disabled = true;
             elements.taskTheme.disabled = false;
@@ -482,6 +618,7 @@
             updateTimerStatus('completed');
             updateSessionInfo();
             updateUI();
+            console.log('=== TIMER PARADO ===');
         }
 
         function handleReset() {
@@ -497,6 +634,7 @@
             
             clearInterval(timerData.currentInterval);
 
+            // Reset UI
             elements.taskTheme.value = '';
             elements.taskTheme.disabled = false;
             elements.timerTime.textContent = '00:00';
@@ -508,13 +646,18 @@
         }
 
         function startTimer() {
-            timerData.currentInterval = setInterval(() => {
+            // Atualizar imediatamente ao iniciar
+            const elapsed = Date.now() - timerData.startTime;
+            elements.timerTime.textContent = formatTime(elapsed);
+            updateSessionInfo();
+            
+            timerData.currentInterval = setInterval(function() {
                 if (timerData.startTime && timerData.isRunning) {
                     const elapsed = Date.now() - timerData.startTime;
                     elements.timerTime.textContent = formatTime(elapsed);
                     updateSessionInfo();
                 }
-            }, 100);
+            }, 100); // Voltar para 100ms para suavidade visual
         }
 
         function updateTimerStatus(status) {
@@ -545,10 +688,10 @@
                 timerData.endTime - timerData.startTime;
 
             elements.sessionDetails.innerHTML = `
-                <div style="display: grid; gap: 4px;">
+                <div style="display: grid; gap: 8px;">
                     <div style="display: flex; justify-content: space-between;">
                         <span>🎯 <strong>Tarefa:</strong></span>
-                        <span style="max-width: 180px; text-align: right; word-wrap: break-word; font-size: 11px;">
+                        <span style="max-width: 250px; text-align: right; word-wrap: break-word;">
                             ${elements.taskTheme.value || 'Sem tema definido'}
                         </span>
                     </div>
@@ -560,9 +703,9 @@
                         <span>🏁 <strong>Fim:</strong></span>
                         <span>${formatDateTime(timerData.endTime)}</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; border-top: 1px solid #10B981; padding-top: 4px; margin-top: 4px;">
+                    <div style="display: flex; justify-content: space-between; border-top: 2px solid #10B981; padding-top: 8px; margin-top: 8px;">
                         <span>⏱️ <strong>Duração:</strong></span>
-                        <span style="color: #10B981; font-weight: bold;">
+                        <span style="color: #10B981; font-weight: bold; font-size: 16px;">
                             ${formatTime(currentDuration)}
                         </span>
                     </div>
@@ -571,29 +714,60 @@
         }
 
         function updateUI() {
+            const hasActivities = timerData.activities.length > 0;
             const todayActivities = getTodayActivities();
+            console.log('Atualizando UI - Total de atividades:', hasActivities ? timerData.activities.length : 0);
+            console.log('Atividades de hoje:', todayActivities.length);
 
+            // Atualizar estatísticas do dia
             if (todayActivities.length > 0) {
+                // Mostrar card de estatísticas se há atividades de hoje
                 elements.statsCard.classList.remove('hidden');
-                
-                // Corrigir soma usando parseInt para garantir precisão
-                let totalMs = 0;
-                todayActivities.forEach(activity => {
-                    totalMs += parseInt(activity.duration, 10);
-                });
-                
-                elements.totalTime.textContent = formatTime(totalMs);
+                const totalTime = todayActivities.reduce((sum, activity) => sum + activity.duration, 0);
+                elements.totalTime.textContent = formatTime(totalTime);
                 elements.totalActivities.textContent = todayActivities.length;
+                console.log('Resumo do dia atualizado:', formatTime(totalTime), todayActivities.length, 'atividades');
 
+                // Habilitar botões de exportação se há atividades de hoje
                 elements.exportTxtBtn.disabled = false;
-                elements.shareTxtBtn.disabled = false;
+                elements.exportCsvBtn.disabled = false;
             } else {
+                // Ocultar card de estatísticas se não há atividades de hoje
                 elements.statsCard.classList.add('hidden');
                 elements.exportTxtBtn.disabled = true;
-                elements.shareTxtBtn.disabled = true;
+                elements.exportCsvBtn.disabled = true;
+                console.log('Nenhuma atividade de hoje - estatísticas ocultadas');
             }
 
             updateHistoryList();
+            updateDataExpirationInfo();
+        }
+
+        function updateDataExpirationInfo() {
+            // Verificar se existe dados salvos e calcular dias restantes
+            try {
+                const savedData = localStorage.getItem('taskTimerData');
+                if (savedData && timerData.activities.length > 0) {
+                    const parsedData = JSON.parse(savedData);
+                    if (parsedData.timestamp) {
+                        const daysLeft = Math.ceil((STORAGE_DURATION - (Date.now() - parsedData.timestamp)) / (24 * 60 * 60 * 1000));
+                        
+                        // Adicionar info de expiração no card de estatísticas
+                        if (elements.statsCard && !elements.statsCard.classList.contains('hidden')) {
+                            const existingInfo = elements.statsCard.querySelector('.expiration-info');
+                            if (existingInfo) existingInfo.remove();
+                            
+                            const expirationInfo = document.createElement('div');
+                            expirationInfo.className = 'expiration-info';
+                            expirationInfo.style.cssText = 'margin-top: 15px; padding-top: 15px; border-top: 1px solid #CBD5E1; font-size: 14px; color: #64748B; text-align: center;';
+                            expirationInfo.innerHTML = `🗂️ Dados salvos por mais ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+                            elements.statsCard.appendChild(expirationInfo);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.warn('Erro ao verificar expiração:', error);
+            }
         }
 
         function getTodayActivities() {
@@ -604,10 +778,14 @@
         function toggleHistory() {
             const isHidden = elements.historySection.classList.contains('hidden');
             elements.historySection.classList.toggle('hidden');
-            elements.historyToggle.textContent = isHidden ? '📋 Ocultar' : '📋 Histórico';
+            elements.historyToggle.innerHTML = isHidden ? 
+                '📋 Ocultar' : 
+                '📋 Histórico';
         }
 
         function updateHistoryList() {
+            console.log('Atualizando lista do histórico. Atividades:', timerData.activities.length);
+            
             if (timerData.activities.length === 0) {
                 elements.historyList.innerHTML = `
                     <div class="empty-state">
@@ -615,141 +793,314 @@
                         Inicie uma tarefa para começar! 🚀
                     </div>
                 `;
+                console.log('Lista vazia exibida');
                 return;
             }
 
-            const html = timerData.activities.slice().reverse().map((activity) => `
-                <div class="history-item">
-                    <div class="history-info">
-                        <div class="history-theme">${activity.theme}</div>
-                        <div class="history-details">
-                            📅 ${activity.date}<br>
-                            🕐 ${formatDateTime(activity.startTime)} - ${formatDateTime(activity.endTime)}
+            const html = timerData.activities.slice().reverse().map((activity, index) => {
+                console.log(`Gerando HTML para atividade ${activity.id}: ${activity.theme}`);
+                return `
+                    <div class="history-item">
+                        <div class="history-info">
+                            <div class="history-theme">${activity.theme}</div>
+                            <div class="history-details">
+                                📅 ${activity.date}<br>
+                                🕐 ${formatDateTime(activity.startTime)} - ${formatDateTime(activity.endTime)}
+                            </div>
+                            <div class="history-duration">⏱️ ${formatTime(activity.duration)}</div>
                         </div>
-                        <div class="history-duration">⏱️ ${formatTime(activity.duration)}</div>
+                        <button class="btn-delete" data-activity-id="${activity.id}" title="Excluir atividade">
+                            🗑️
+                        </button>
                     </div>
-                    <button class="btn-delete" onclick="deleteActivity(${activity.id})" title="Excluir atividade">
-                        🗑️
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             elements.historyList.innerHTML = html;
+            console.log('HTML do histórico inserido');
+
+            // Adicionar event listeners para os botões de deletar
+            const deleteButtons = elements.historyList.querySelectorAll('.btn-delete');
+            console.log('Botões de deletar encontrados:', deleteButtons.length);
+            
+            deleteButtons.forEach((button, index) => {
+                const activityId = button.getAttribute('data-activity-id');
+                console.log(`Adicionando listener ao botão ${index + 1}, ID: ${activityId}`);
+                
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Botão de deletar clicado, ID:', activityId);
+                    deleteActivity(parseInt(activityId));
+                });
+            });
         }
 
         function deleteActivity(id) {
-            if (!confirm('❌ Tem certeza que deseja excluir esta atividade?')) return;
-            timerData.activities = timerData.activities.filter(activity => activity.id !== id);
+            console.log('Tentando deletar atividade com ID:', id);
+            console.log('Tipo do ID recebido:', typeof id);
+            console.log('Atividades atuais:');
+            timerData.activities.forEach(a => {
+                console.log(`- ID: ${a.id} (${typeof a.id}), Tema: "${a.theme}"`);
+            });
+            
+            // Verificar se a atividade existe
+            const activityExists = timerData.activities.find(activity => activity.id === id);
+            console.log('Atividade encontrada:', activityExists ? 'SIM' : 'NÃO');
+            
+            if (!confirm('❌ Tem certeza que deseja excluir esta atividade?')) {
+                console.log('Usuário cancelou a exclusão');
+                return;
+            }
+
+            console.log('Usuário confirmou a exclusão');
+            console.log('Atividades antes do filtro:', timerData.activities.length);
+            
+            timerData.activities = timerData.activities.filter(activity => {
+                const keep = activity.id !== id;
+                console.log(`Atividade ${activity.id} (${activity.theme}): ${keep ? 'MANTER' : 'REMOVER'}`);
+                return keep;
+            });
+            
+            console.log('Atividades depois do filtro:', timerData.activities.length);
+            
             saveData();
             updateUI();
+            console.log('Atividade deletada e UI atualizada');
         }
 
         function clearHistory() {
+            console.log('Tentando limpar histórico. Total de atividades:', timerData.activities.length);
+            
             if (timerData.activities.length === 0) {
                 alert('ℹ️ Não há atividades para limpar.');
                 return;
             }
-            if (!confirm('⚠️ Tem certeza que deseja limpar TODO o histórico?\n\nEsta ação não pode ser desfeita!')) return;
+
+            if (!confirm('⚠️ Tem certeza que deseja limpar TODO o histórico de atividades?\n\nEsta ação não pode ser desfeita!')) {
+                return;
+            }
+
+            console.log('Usuário confirmou limpeza');
             timerData.activities = [];
             saveData();
             updateUI();
+            console.log('Histórico limpo e salvo');
             alert('🗑️ Histórico limpo com sucesso!');
         }
 
+        // Funções para persistência de dados
         function saveData() {
             try {
-                localStorage.setItem('taskTimerData', JSON.stringify(timerData.activities));
+                const dataToSave = {
+                    activities: timerData.activities,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('taskTimerData', JSON.stringify(dataToSave));
+                console.log('Dados salvos no localStorage:', dataToSave.activities.length, 'atividades');
             } catch (error) {
                 console.error('Erro ao salvar dados:', error);
+                alert('❌ Erro ao salvar dados no navegador');
+            }
+        }
+
+        function loadData() {
+            try {
+                const savedData = localStorage.getItem('taskTimerData');
+                if (savedData) {
+                    const parsedData = JSON.parse(savedData);
+                    
+                    // Verificar se os dados não estão expirados (5 dias)
+                    if (parsedData.timestamp && (Date.now() - parsedData.timestamp < STORAGE_DURATION)) {
+                        timerData.activities = parsedData.activities || [];
+                        console.log('Dados carregados:', timerData.activities.length, 'atividades');
+                    } else {
+                        // Dados expirados, limpar
+                        localStorage.removeItem('taskTimerData');
+                        timerData.activities = [];
+                        console.log('Dados expirados, limpeza automática realizada');
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                timerData.activities = [];
+            }
+        }
+
+        function cleanOldData() {
+            // Limpar atividades com mais de 5 dias
+            const cutoffDate = Date.now() - STORAGE_DURATION;
+            const originalLength = timerData.activities.length;
+            
+            timerData.activities = timerData.activities.filter(activity => {
+                return activity.startTime > cutoffDate;
+            });
+
+            // Se removeu algum item, salvar os dados atualizados
+            if (timerData.activities.length !== originalLength) {
+                saveData();
+                console.log(`Removidas ${originalLength - timerData.activities.length} atividades antigas`);
             }
         }
 
         function exportTXT() {
             const todayActivities = getTodayActivities();
-            if (todayActivities.length === 0) return;
+            if (todayActivities.length === 0) {
+                console.log('Nenhuma atividade de hoje para exportar');
+                return;
+            }
 
             const today = new Date().toLocaleDateString('pt-BR');
-            let content = `📊 RELATÓRIO DE ATIVIDADES - ${today}\n${'='.repeat(50)}\n\n`;
-
-            console.log('=== DEBUG EXPORTAÇÃO ===');
-            let totalMs = 0;
+            let content = `📊 RELATÓRIO DE ATIVIDADES - ${today}\n`;
+            content += `${'='.repeat(60)}\n\n`;
 
             todayActivities.forEach((activity, index) => {
-                console.log(`Atividade ${index + 1}: ${activity.theme}`);
-                console.log(`  Duração (ms): ${activity.duration}`);
-                console.log(`  Duração (formatada): ${formatTime(activity.duration)}`);
-                
                 content += `${index + 1}. 📝 ${activity.theme}\n`;
                 content += `   ⏰ Início: ${formatDateTime(activity.startTime)}\n`;
                 content += `   🏁 Fim: ${formatDateTime(activity.endTime)}\n`;
                 content += `   ⏱️ Duração: ${formatTime(activity.duration)}\n\n`;
-                
-                totalMs += parseInt(activity.duration, 10);
             });
 
-            console.log(`Total calculado (ms): ${totalMs}`);
-            console.log(`Total formatado: ${formatTime(totalMs)}`);
-            
-            content += `${'='.repeat(50)}\n`;
-            content += `📈 TEMPO TOTAL DO DIA: ${formatTime(totalMs)}\n`;
+            const totalTime = todayActivities.reduce((sum, activity) => sum + activity.duration, 0);
+            content += `${'='.repeat(60)}\n`;
+            content += `📈 TEMPO TOTAL DO DIA: ${formatTime(totalTime)}\n`;
             content += `📋 TOTAL DE ATIVIDADES: ${todayActivities.length}\n`;
             content += `📅 RELATÓRIO GERADO EM: ${new Date().toLocaleString('pt-BR')}`;
 
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `relatorio_atividades_${today.replace(/\//g, '-')}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-            
-            console.log('=== FIM DEBUG ===');
+            downloadFile(content, `relatorio_atividades_${today.replace(/\//g, '-')}.txt`, 'text/plain');
         }
 
         function shareTXT() {
             const todayActivities = getTodayActivities();
-            if (todayActivities.length === 0) return;
+            if (todayActivities.length === 0) {
+                console.log('Nenhuma atividade de hoje para compartilhar');
+                return;
+            }
 
             const today = new Date().toLocaleDateString('pt-BR');
-            let content = `📊 RELATÓRIO DE ATIVIDADES - ${today}\n${'='.repeat(40)}\n\n`;
+            let content = `📊 RELATÓRIO DE ATIVIDADES - ${today}\n`;
+            content += `${'='.repeat(50)}\n\n`;
 
-            let totalMs = 0;
             todayActivities.forEach((activity, index) => {
                 content += `${index + 1}. 📝 ${activity.theme}\n`;
-                content += `   ⏰ ${formatDateTime(activity.startTime)} - 🏁 ${formatDateTime(activity.endTime)}\n`;
+                content += `   ⏰ Início: ${formatDateTime(activity.startTime)}\n`;
+                content += `   🏁 Fim: ${formatDateTime(activity.endTime)}\n`;
                 content += `   ⏱️ Duração: ${formatTime(activity.duration)}\n\n`;
-                totalMs += parseInt(activity.duration, 10);
             });
 
-            content += `${'='.repeat(40)}\n`;
-            content += `📈 TOTAL: ${formatTime(totalMs)} (${todayActivities.length} atividades)\n`;
+            const totalTime = todayActivities.reduce((sum, activity) => sum + activity.duration, 0);
+            content += `${'='.repeat(50)}\n`;
+            content += `📈 TEMPO TOTAL: ${formatTime(totalTime)}\n`;
+            content += `📋 ATIVIDADES: ${todayActivities.length}\n`;
             content += `📅 ${new Date().toLocaleString('pt-BR')}`;
 
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(content).then(() => {
-                    alert('📋 Relatório copiado para área de transferência!');
+            // Verificar se a API Web Share está disponível
+            if (navigator.share) {
+                // Criar um arquivo temporário para compartilhar
+                const blob = new Blob([content], { type: 'text/plain' });
+                const file = new File([blob], `relatorio_${today.replace(/\//g, '-')}.txt`, { type: 'text/plain' });
+                
+                navigator.share({
+                    title: `Relatório de Atividades - ${today}`,
+                    text: 'Relatório de produtividade do Task Timer',
+                    files: [file]
+                }).then(() => {
+                    console.log('Compartilhamento realizado com sucesso!');
+                }).catch((error) => {
+                    console.log('Erro ao compartilhar:', error);
+                    fallbackShare(content, today);
                 });
             } else {
-                alert('❌ Não foi possível copiar automaticamente. Use o botão Relatório para baixar o arquivo.');
+                // Fallback para navegadores que não suportam Web Share API
+                fallbackShare(content, today);
             }
         }
 
-        // Event Listeners
-        elements.startBtn.addEventListener('click', handleStart);
-        elements.stopBtn.addEventListener('click', handleStop);
-        elements.resetBtn.addEventListener('click', handleReset);
-        elements.historyToggle.addEventListener('click', toggleHistory);
-        elements.exportTxtBtn.addEventListener('click', exportTXT);
-        elements.shareTxtBtn.addEventListener('click', shareTXT);
-        elements.clearHistoryBtn.addEventListener('click', clearHistory);
+        function fallbackShare(content, today) {
+            // Tentar copiar para área de transferência
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(content).then(() => {
+                    alert('📋 Relatório copiado para área de transferência!\n\nVocê pode colar em qualquer aplicativo (WhatsApp, email, etc.)');
+                }).catch(() => {
+                    showTextModal(content, today);
+                });
+            } else {
+                showTextModal(content, today);
+            }
+        }
 
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            updateUI();
-        });
+        function showTextModal(content, today) {
+            // Criar modal para mostrar o texto
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.8); display: flex; align-items: center; 
+                justify-content: center; z-index: 9999; padding: 20px; box-sizing: border-box;
+            `;
 
-        // Atualizar UI na inicialização
-        updateUI();
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: white; border-radius: 15px; padding: 30px; max-width: 90%; 
+                max-height: 90%; overflow: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            `;
+
+            modalContent.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0; color: #1E293B;">📤 Compartilhar Relatório</h3>
+                    <button onclick="this.closest('[style*=fixed]').remove()" 
+                            style="background: #EF4444; color: white; border: none; border-radius: 50%; 
+                                   width: 30px; height: 30px; cursor: pointer; font-size: 16px;">✕</button>
+                </div>
+                <textarea readonly style="width: 100%; height: 300px; padding: 15px; border: 2px solid #E5E7EB; 
+                                         border-radius: 10px; font-family: monospace; font-size: 14px; resize: none;">${content}</textarea>
+                <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
+                    <button onclick="navigator.clipboard.writeText(this.parentElement.previousElementSibling.value).then(() => alert('📋 Copiado!')).catch(() => alert('❌ Erro ao copiar'))"
+                            style="background: linear-gradient(135deg, #10B981, #059669); color: white; border: none; 
+                                   padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                        📋 Copiar Texto
+                    </button>
+                    <button onclick="downloadFile('${content.replace(/'/g, "\\'")}', 'relatorio_${today.replace(/\//g, '-')}.txt', 'text/plain')"
+                            style="background: linear-gradient(135deg, #3B82F6, #1E40AF); color: white; border: none; 
+                                   padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                        💾 Baixar Arquivo
+                    </button>
+                </div>
+                <p style="margin-top: 15px; font-size: 14px; color: #64748B; text-align: center; line-height: 1.5;">
+                    💡 Dica: Copie o texto acima e cole no WhatsApp, email, Telegram ou qualquer outro aplicativo!
+                </p>
+            `;
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+
+            // Fechar modal ao clicar fora
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            
+            link.href = url;
+            link.download = filename;
+            link.style.display = 'none';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            URL.revokeObjectURL(url);
+            
+            // Feedback para o usuário
+            setTimeout(() => {
+                alert(`📥 Arquivo "${filename}" baixado com sucesso!`);
+            }, 100);
+        }
     </script>
 </body>
 </html>
